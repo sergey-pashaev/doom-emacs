@@ -459,7 +459,6 @@ files, so we replace calls to `pp' with the much faster `prin1'."
               flyspell-mode
               eldoc-mode
               smartparens-mode
-              highlight-numbers-mode
               better-jumper-local-mode
               ws-butler-mode
               auto-composition-mode

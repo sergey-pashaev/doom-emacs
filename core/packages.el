@@ -8,7 +8,6 @@
 ;; core-ui.el
 (package! all-the-icons :pin "1416f37984")
 (package! hide-mode-line :pin "88888825b5")
-(package! highlight-numbers :pin "8b4744c7f4")
 (package! rainbow-delimiters :pin "5125f4e476")
 (package! restart-emacs :pin "9aa90d3df9")
 
