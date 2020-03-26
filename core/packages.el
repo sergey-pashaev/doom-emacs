@@ -14,7 +14,6 @@
 
 ;; core-editor.el
 (package! better-jumper :pin "6d240032ca")
-(package! dtrt-indent :pin "48221c928b")
 (package! helpful :pin "c54e9ddbd6")
 (when IS-MAC
   (package! ns-auto-titlebar :pin "1efc30d385"))

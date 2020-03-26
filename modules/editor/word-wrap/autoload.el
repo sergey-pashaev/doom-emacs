@@ -54,7 +54,6 @@ according to the configuration of `+word-wrap-extra-indent'."
                     (not (bound-and-true-p visual-line-mode)))
 
         (unless +word-wrap--major-mode-is-visual
-          (require 'dtrt-indent) ; for dtrt-indent--search-hook-mapping
           (require 'smartparens) ; for sp-point-in-string-or-comment
 
           (setq-local +word-wrap--major-mode-indent-var

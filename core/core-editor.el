@@ -4,11 +4,6 @@
   "A list of major modes in which indentation should be automatically
 detected.")
 
-(defvar-local doom-inhibit-indent-detection nil
-  "A buffer-local flag that indicates whether `dtrt-indent' should try to detect
-indentation settings or not. This should be set by editorconfig if it
-successfully sets indent_style/indent_size.")
-
 (defvar-local doom-large-file-p nil)
 (put 'doom-large-file-p 'permanent-local t)
 
@@ -335,52 +330,6 @@ files, so we replace calls to `pp' with the much faster `prin1'."
 
   ;; Create a jump point before jumping with imenu.
   (advice-add #'imenu :around #'doom-set-jump-a))
-
-
-(use-package! dtrt-indent
-  ;; Automatic detection of indent settings
-  :when doom-interactive-mode
-  :defer t
-  :init
-  (add-hook! '(change-major-mode-after-body-hook read-only-mode-hook)
-    (defun doom-detect-indentation-h ()
-      (unless (or (not after-init-time)
-                  doom-inhibit-indent-detection
-                  doom-large-file-p
-                  (memq major-mode doom-detect-indentation-excluded-modes)
-                  (member (substring (buffer-name) 0 1) '(" " "*")))
-        ;; Don't display messages in the echo area, but still log them
-        (let ((inhibit-message (not doom-debug-mode)))
-          (dtrt-indent-mode +1)))))
-  :config
-  ;; Enable dtrt-indent even in smie modes so that it can update `tab-width',
-  ;; `standard-indent' and `evil-shift-width' there as well.
-  (setq dtrt-indent-run-after-smie t)
-  ;; Reduced from the default of 5000 for slightly faster analysis
-  (setq dtrt-indent-max-lines 2000)
-
-  ;; always keep tab-width up-to-date
-  (push '(t tab-width) dtrt-indent-hook-generic-mapping-list)
-
-  (defvar dtrt-indent-run-after-smie)
-  (defadvice! doom--fix-broken-smie-modes-a (orig-fn arg)
-    "Some smie modes throw errors when trying to guess their indentation, like
-`nim-mode'. This prevents them from leaving Emacs in a broken state."
-    :around #'dtrt-indent-mode
-    (let ((dtrt-indent-run-after-smie dtrt-indent-run-after-smie))
-      (cl-letf* ((old-smie-config-guess (symbol-function 'smie-config-guess))
-                 (old-smie-config--guess (symbol-function 'symbol-config--guess))
-                 ((symbol-function 'symbol-config--guess)
-                  (lambda (beg end)
-                    (funcall old-smie-config--guess beg (min end 10000))))
-                 ((symbol-function 'smie-config-guess)
-                  (lambda ()
-                    (condition-case e (funcall old-smie-config-guess)
-                      (error (setq dtrt-indent-run-after-smie t)
-                             (message "[WARNING] Indent detection: %s"
-                                      (error-message-string e))
-                             (message "")))))) ; warn silently
-        (funcall orig-fn arg)))))
 
 
 (use-package! helpful

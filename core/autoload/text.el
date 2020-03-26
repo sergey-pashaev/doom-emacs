@@ -295,7 +295,7 @@ Respects `require-final-newline'."
   "Change the indentation size to WIDTH of the current buffer.
 
 The effectiveness of this command is significantly improved if you have
-editorconfig or dtrt-indent installed."
+editorconfig installed."
   (interactive
    (list (if (integerp current-prefix-arg)
              current-prefix-arg
@@ -306,11 +306,7 @@ editorconfig or dtrt-indent installed."
     (setq evil-shift-width width))
   (cond ((require 'editorconfig nil t)
          (let (editorconfig-lisp-use-default-indent)
-           (editorconfig-set-indentation nil width)))
-        ((require 'dtrt-indent nil t)
-         (when-let (var (nth 2 (assq major-mode dtrt-indent-hook-mapping-list)))
-           (doom-log "Updated %s = %d" var width)
-           (set var width))))
+           (editorconfig-set-indentation nil width))))
   (message "Changed indentation to %d" width))
 
 
