@@ -3,11 +3,6 @@
 (use-package! objed
   :after-call pre-command-hook
   :config
-  ;; Prevent undo actions from exiting edit state
-  (add-to-list 'objed-keeper-commands 'undo-tree-undo)
-  (add-to-list 'objed-keeper-commands 'undo-tree-redo)
-  (add-to-list 'objed-keeper-commands 'undo-tree-visualize)
-
   (defvar +objed--extra-face-remaps nil)
 
   (defadvice! +objed--add-face-remaps-a (&rest _)

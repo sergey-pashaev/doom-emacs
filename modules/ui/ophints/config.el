@@ -25,13 +25,3 @@
               :switch evil-goggles-enable-yank
               :advice evil-goggles--generic-async-advice))
   (evil-goggles-mode +1))
-
-
-(use-package! volatile-highlights
-  :unless (featurep! :editor evil)
-  :after-call pre-command-hook
-  :config
-  (volatile-highlights-mode)
-  (after! undo-tree
-    (vhl/define-extension 'undo-tree 'undo-tree-yank 'undo-tree-move)
-    (vhl/install-extension 'undo-tree)))
