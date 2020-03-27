@@ -412,7 +412,6 @@
           :desc "Jump to previous hunk"     "["   #'git-gutter:previous-hunk)
         (:when (featurep! :tools magit)
           :desc "Magit dispatch"            "/"   #'magit-dispatch
-          :desc "Forge dispatch"            "'"   #'forge-dispatch
           :desc "Magit switch branch"       "b"   #'magit-branch-checkout
           :desc "Magit status"              "g"   #'magit-status
           :desc "Magit file delete"         "D"   #'magit-file-delete
@@ -425,34 +424,21 @@
           (:prefix ("f" . "find")
             :desc "Find file"                 "f"   #'magit-find-file
             :desc "Find gitconfig file"       "g"   #'magit-find-git-config-file
-            :desc "Find commit"               "c"   #'magit-show-commit
-            :desc "Find issue"                "i"   #'forge-visit-issue
-            :desc "Find pull request"         "p"   #'forge-visit-pullreq)
+            :desc "Find commit"               "c"   #'magit-show-commit)
           (:prefix ("o" . "open in browser")
             :desc "Browse file or region"     "o"   #'browse-at-remote
-            :desc "Browse homepage"           "h"   #'+vc/browse-at-remote-homepage
-            :desc "Browse remote"             "r"   #'forge-browse-remote
-            :desc "Browse commit"             "c"   #'forge-browse-commit
-            :desc "Browse an issue"           "i"   #'forge-browse-issue
-            :desc "Browse a pull request"     "p"   #'forge-browse-pullreq
-            :desc "Browse issues"             "I"   #'forge-browse-issues
-            :desc "Browse pull requests"      "P"   #'forge-browse-pullreqs)
+            :desc "Browse homepage"           "h"   #'+vc/browse-at-remote-homepage)
           (:prefix ("l" . "list")
             (:when (featurep! :tools gist)
               :desc "List gists"              "g"   #'+gist:list)
             :desc "List repositories"         "r"   #'magit-list-repositories
-            :desc "List submodules"           "s"   #'magit-list-submodules
-            :desc "List issues"               "i"   #'forge-list-issues
-            :desc "List pull requests"        "p"   #'forge-list-pullreqs
-            :desc "List notifications"        "n"   #'forge-list-notifications)
+            :desc "List submodules"           "s"   #'magit-list-submodules)
           (:prefix ("c" . "create")
             :desc "Initialize repo"           "r"   #'magit-init
             :desc "Clone repo"                "R"   #'magit-clone
             :desc "Commit"                    "c"   #'magit-commit-create
             :desc "Fixup"                     "f"   #'magit-commit-fixup
-            :desc "Branch"                    "b"   #'magit-branch-and-checkout
-            :desc "Issue"                     "i"   #'forge-create-issue
-            :desc "Pull request"              "p"   #'forge-create-pullreq)))
+            :desc "Branch"                    "b"   #'magit-branch-and-checkout)))
 
       ;;; <leader> i --- insert
       (:prefix-map ("i" . "insert")

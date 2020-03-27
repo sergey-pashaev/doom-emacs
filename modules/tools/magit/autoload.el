@@ -108,14 +108,6 @@ control in buffers."
             (kill-process process)
             (kill-buffer buf)))))))
 
-;;;###autoload
-(defun +magit/start-github-review (arg)
-  (interactive "P")
-  (call-interactively
-    (if (or arg (not (featurep 'forge)))
-        #'github-review-start
-      #'github-review-forge-pr-at-point)))
-
 (defvar +magit-clone-history nil
   "History for `+magit/clone' prompt.")
 ;;;###autoload
