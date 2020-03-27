@@ -69,8 +69,6 @@ capture, the end position, and the output buffer.")
         "o" #'markdown-open
         "p" #'markdown-preview
         "e" #'markdown-export
-        (:when (featurep! +grip)
-          "p" #'grip-mode)
         (:prefix ("i" . "insert")
           "i" #'markdown-insert-image
           "l" #'markdown-insert-link)))
