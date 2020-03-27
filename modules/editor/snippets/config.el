@@ -85,17 +85,3 @@
         [M-backspace] #'+snippets/delete-to-start-of-field
         [backspace]   #'+snippets/delete-backward-char
         [delete]      #'+snippets/delete-forward-char-or-field))
-
-
-(use-package! auto-yasnippet
-  :defer t
-  :init (setq aya-persist-snippets-dir (concat doom-etc-dir "auto-snippets/"))
-  :config
-  (defadvice! +snippets--inhibit-yas-global-mode-a (orig-fn &rest args)
-    "auto-yasnippet enables `yas-global-mode'. This is obnoxious for folks like
-us who use yas-minor-mode and enable yasnippet more selectively. This advice
-swaps `yas-global-mode' with `yas-minor-mode'."
-    :around '(aya-expand aya-open-line)
-    (cl-letf (((symbol-function #'yas-global-mode) #'yas-minor-mode)
-              (yas-global-mode yas-minor-mode))
-      (apply orig-fn args))))

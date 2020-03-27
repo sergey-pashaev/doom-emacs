@@ -246,12 +246,7 @@
             "M-d"    #'evil-multiedit-match-and-next
             "M-D"    #'evil-multiedit-match-and-prev
             "RET"    #'evil-multiedit-toggle-or-restrict-region
-            [return] #'evil-multiedit-toggle-or-restrict-region)))
-
-      (:when (featurep! :editor snippets)
-        ;; auto-yasnippet
-        :i  [C-tab] #'aya-expand
-        :nv [C-tab] #'aya-create))
+            [return] #'evil-multiedit-toggle-or-restrict-region))))
 
 ;;; :tools
 (when (featurep! :tools eval)
