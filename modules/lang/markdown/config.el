@@ -72,25 +72,3 @@ capture, the end position, and the output buffer.")
         (:prefix ("i" . "insert")
           "i" #'markdown-insert-image
           "l" #'markdown-insert-link)))
-
-
-(use-package! evil-markdown
-  :when (featurep! :editor evil +everywhere)
-  :hook (markdown-mode . evil-markdown-mode)
-  :config
-  (add-hook 'evil-markdown-mode-hook #'evil-normalize-keymaps)
-  (map! :map evil-markdown-mode-map
-        :n "TAB" #'markdown-cycle
-        :n [backtab] #'markdown-shifttab
-        :i "M-*" #'markdown-insert-list-item
-        :i "M-b" #'markdown-insert-bold
-        :i "M-i" #'markdown-insert-italic
-        :i "M-`" #'+markdown/insert-del
-        :i "M--" #'markdown-insert-hr
-        :n "M-r" #'browse-url-of-file
-        :m "]h"  #'markdown-next-visible-heading
-        :m "[h"  #'markdown-previous-visible-heading
-        :m "[p"  #'markdown-promote
-        :m "]p"  #'markdown-demote
-        :m "[l"  #'markdown-previous-link
-        :m "]l"  #'markdown-next-link))
