@@ -76,17 +76,6 @@
   ;; Close transient with ESC
   (define-key transient-map [escape] #'transient-quit-one))
 
-
-(use-package! github-review
-  :after magit
-  :config
-  (transient-append-suffix 'magit-merge "i"
-    '("y" "Review pull request" +magit/start-github-review))
-  (after! forge
-    (transient-append-suffix 'forge-dispatch "c u"
-      '("c r" "Review pull request" +magit/start-github-review))))
-
-
 (use-package! magit-todos
   :after magit
   :config
