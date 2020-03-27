@@ -3,7 +3,6 @@
 
 (package! elisp-mode :built-in t)
 
-(package! macrostep :pin "424e3734a1")
 (package! overseer :pin "02d49f582e")
 (package! elisp-def :pin "368b04da68")
 (package! elisp-demos :pin "bec206bf1b")

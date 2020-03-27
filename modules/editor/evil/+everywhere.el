@@ -140,7 +140,6 @@ variable for an explanation of the defaults (in comments). See
     lsp-ui-imenu
     lua-mode
     kotlin-mode
-    macrostep
     man
     magit
     ,@(if evil-collection-setup-minibuffer '(minibuffer))
