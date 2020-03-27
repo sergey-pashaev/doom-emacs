@@ -72,7 +72,6 @@ capture, the end position, and the output buffer.")
         (:when (featurep! +grip)
           "p" #'grip-mode)
         (:prefix ("i" . "insert")
-          "t" #'markdown-toc-generate-toc
           "i" #'markdown-insert-image
           "l" #'markdown-insert-link)))
 

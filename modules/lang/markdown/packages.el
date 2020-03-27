@@ -2,7 +2,6 @@
 ;;; lang/markdown/packages.el
 
 (package! markdown-mode :pin "e9dff50d57")
-(package! markdown-toc :pin "7038f4f6d5")
 (package! edit-indirect :pin "935ded353b")
 
 (when (featurep! +grip)
