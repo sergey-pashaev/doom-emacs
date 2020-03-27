@@ -76,15 +76,6 @@
   ;; Close transient with ESC
   (define-key transient-map [escape] #'transient-quit-one))
 
-(use-package! magit-todos
-  :after magit
-  :config
-  (setq magit-todos-keyword-suffix "\\(?:([^)]+)\\)?:?") ; make colon optional
-  (define-key magit-todos-section-map "j" nil)
-  ;; Warns that jT isn't bound. Well, yeah, you don't need to tell me, that was
-  ;; on purpose ya goose.
-  (advice-add #'magit-todos-mode :around #'doom-shut-up-a))
-
 
 (use-package! magit-gitflow
   :hook (magit-mode . turn-on-magit-gitflow))

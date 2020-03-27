@@ -143,7 +143,6 @@ variable for an explanation of the defaults (in comments). See
     macrostep
     man
     magit
-    magit-todos
     ,@(if evil-collection-setup-minibuffer '(minibuffer))
     monky
     mu4e
