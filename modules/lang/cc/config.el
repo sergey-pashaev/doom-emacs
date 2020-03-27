@@ -71,7 +71,8 @@ This is ignored by ccls.")
     :return "return"
     :yield "#require")
 
-  ;;; Better fontification (also see `modern-cpp-font-lock')
+  ;;; Better fontification
+  (add-hook 'c-mode-common-hook #'subword-mode)
   (add-hook! '(c-mode-hook c++-mode-hook) #'+cc-fontify-constants-h)
 
   ;; Custom style, based off of linux
@@ -113,10 +114,6 @@ This is ignored by ccls.")
 
   (after! ffap
     (add-to-list 'ffap-alist '(c-mode . ffap-c-mode))))
-
-
-(use-package! modern-cpp-font-lock
-  :hook (c++-mode . modern-c++-font-lock-mode))
 
 
 (use-package! irony
@@ -166,16 +163,6 @@ This is ignored by ccls.")
   :when (featurep! :completion company)
   :after cmake-mode
   :config (set-company-backend! 'cmake-mode 'company-cmake))
-
-
-(use-package! demangle-mode
-  :hook llvm-mode)
-
-
-(use-package! company-glsl  ; for `glsl-mode'
-  :when (featurep! :completion company)
-  :after glsl-mode
-  :config (set-company-backend! 'glsl-mode 'company-glsl))
 
 
 ;;
