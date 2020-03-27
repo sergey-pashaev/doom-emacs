@@ -76,11 +76,6 @@
   ;; Close transient with ESC
   (define-key transient-map [escape] #'transient-quit-one))
 
-
-(use-package! magit-gitflow
-  :hook (magit-mode . turn-on-magit-gitflow))
-
-
 (use-package! evil-magit
   :when (featurep! :editor evil +everywhere)
   :after magit
