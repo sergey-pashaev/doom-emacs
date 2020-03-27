@@ -1,8 +1,6 @@
 ;;; lang/elm/config.el -*- lexical-binding: t; -*-
 
 (after! elm-mode
-  (add-hook 'elm-mode-hook #'rainbow-delimiters-mode)
-
   (when (featurep! +lsp)
     (add-hook 'elm-mode-local-vars-hook #'lsp!))
 

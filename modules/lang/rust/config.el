@@ -18,8 +18,6 @@
         ;; use :editor format instead
         rustic-format-trigger nil)
 
-  (add-hook 'rustic-mode-hook #'rainbow-delimiters-mode)
-
   (if (featurep! +lsp)
       (add-hook 'rustic-mode-local-vars-hook #'lsp!)
     (setq rustic-lsp-server nil)

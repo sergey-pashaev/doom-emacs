@@ -12,7 +12,6 @@
 ;;; Packages
 
 ;;;###package clojure-mode
-(add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
 (when (featurep! +lsp)
   (add-hook! '(clojure-mode-local-vars-hook
                clojurec-mode-local-vars-hook

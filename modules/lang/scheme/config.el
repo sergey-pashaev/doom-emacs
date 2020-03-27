@@ -1,9 +1,6 @@
 ;;; lang/scheme/config.el -*- lexical-binding: t; -*-
 
 ;;;###package scheme
-(add-hook 'scheme-mode-hook #'rainbow-delimiters-mode)
-
-
 (use-package! geiser
   :defer t
   :init

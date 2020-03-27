@@ -51,7 +51,6 @@
         js2-highlight-external-variables t
         js2-idle-timer-delay 0.1)
 
-  (add-hook 'js2-mode-hook #'rainbow-delimiters-mode)
   ;; Indent switch-case another step
   (setq-hook! 'js2-mode-hook
     js-switch-indent-offset js2-basic-offset
@@ -104,7 +103,6 @@
   (unless (featurep! :lang web)
     (add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode)))
   :config
-  (add-hook 'typescript-mode-hook #'rainbow-delimiters-mode)
   (setq-hook! 'typescript-mode-hook
     comment-line-break-function #'js2-line-break)
   (set-electric! 'typescript-mode

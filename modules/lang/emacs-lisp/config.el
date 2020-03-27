@@ -54,7 +54,6 @@ This marks a foldable marker for `outline-minor-mode' in elisp buffers.")
   (add-hook! 'emacs-lisp-mode-hook
              #'outline-minor-mode
              ;; fontificiation
-             #'rainbow-delimiters-mode
              #'highlight-quoted-mode
              ;; initialization
              #'+emacs-lisp-extend-imenu-h)

@@ -72,7 +72,6 @@ This is ignored by ccls.")
     :yield "#require")
 
   ;;; Better fontification (also see `modern-cpp-font-lock')
-  (add-hook 'c-mode-common-hook #'rainbow-delimiters-mode)
   (add-hook! '(c-mode-hook c++-mode-hook) #'+cc-fontify-constants-h)
 
   ;; Custom style, based off of linux

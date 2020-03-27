@@ -23,10 +23,6 @@
   (set-rotate-patterns! 'racket-mode
     :symbols '(("#true" "#false")))
 
-  (add-hook! 'racket-mode-hook
-             #'rainbow-delimiters-mode
-             #'highlight-quoted-mode)
-
   (unless (or (featurep! :editor parinfer)
               (featurep! :editor lispy))
     (add-hook! 'racket-mode-hook #'racket-smart-open-bracket-mode))

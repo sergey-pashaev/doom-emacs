@@ -27,7 +27,6 @@
 ;; built-in, and contains both css-mode & scss-mode
 (after! css-mode
   ;; css-mode hooks apply to scss and less-css modes
-  (add-hook 'css-mode-hook #'rainbow-delimiters-mode)
   (map! :localleader
         :map scss-mode-map
         "b" #'+css/scss-build

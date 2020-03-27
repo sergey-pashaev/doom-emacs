@@ -1,8 +1,6 @@
 ;;; lang/csharp/config.el -*- lexical-binding: t; -*-
 
 (after! csharp-mode
-  (add-hook 'csharp-mode-hook #'rainbow-delimiters-mode)
-
   (set-electric! 'csharp-mode :chars '(?\n ?\}))
   (set-rotate-patterns! 'csharp-mode
     :symbols '(("public" "protected" "private")

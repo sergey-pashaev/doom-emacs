@@ -68,7 +68,6 @@
           (pop-to-buffer +regex--expr-buffer)
           (with-current-buffer +regex--expr-buffer
             (conf-mode)
-            (rainbow-delimiters-mode +1)
             (doom/toggle-line-numbers +1)
             (setq-local require-final-newline nil)
             (+regex-mode +1)
@@ -95,7 +94,6 @@
         (select-window (split-window-right))
         (switch-to-buffer (get-buffer-create "*doom-regex-repl*"))
         (conf-mode)
-        (rainbow-delimiters-mode +1)
         (doom/toggle-line-numbers -1)
         (setq-local require-final-newline nil)
         (setq mode-line-format nil
