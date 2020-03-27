@@ -63,9 +63,6 @@ Buffers that are considered unreal (see `doom-real-buffer-p') are dimmed with
                         (if (null val)
                             'font-lock-comment-face
                           'success)))
-           ((symbolp val)
-            (propertize (format "'%s" val)
-                        'face 'highlight-quoted-symbol))
            ((keymapp val)
             (propertize "<keymap>" 'face 'font-lock-constant-face))
            ((listp val)
