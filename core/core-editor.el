@@ -198,7 +198,7 @@ possible."
         recentf-save-file (concat doom-cache-dir "recentf")
         recentf-auto-cleanup 'never
         recentf-max-menu-items 0
-        recentf-max-saved-items 200)
+        recentf-max-saved-items 1000)
 
   (add-hook! '(doom-switch-window-hook write-file-functions)
     (defun doom--recentf-touch-buffer-h ()
@@ -243,7 +243,7 @@ possible."
   :after-call after-find-file dired-initial-position-hook
   :config
   (setq save-place-file (concat doom-cache-dir "saveplace")
-        save-place-limit 100)
+        save-place-limit 500)
 
   (defadvice! doom--recenter-on-load-saveplace-a (&rest _)
     "Recenter on cursor when loading a saved place."
