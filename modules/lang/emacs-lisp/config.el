@@ -128,32 +128,6 @@ This marks a foldable marker for `outline-minor-mode' in elisp buffers.")
     (add-hook 'flycheck-mode-hook #'flycheck-cask-setup nil t)))
 
 
-(use-package! elisp-demos
-  :defer t
-  :init
-  (advice-add 'describe-function-1 :after #'elisp-demos-advice-describe-function-1)
-  (advice-add 'helpful-update :after #'elisp-demos-advice-helpful-update)
-  :config
-  (defadvice! +emacs-lisp--add-doom-elisp-demos-a (orig-fn symbol)
-    "Add Doom's own demos to help buffers."
-    :around #'elisp-demos--search
-    (or (funcall orig-fn symbol)
-        (when-let (demos-file (doom-glob doom-docs-dir "api.org"))
-          (with-temp-buffer
-            (insert-file-contents demos-file)
-            (goto-char (point-min))
-            (when (re-search-forward
-                   (format "^\\*\\*\\* %s$" (regexp-quote (symbol-name symbol)))
-                   nil t)
-              (let (beg end)
-                (forward-line 1)
-                (setq beg (point))
-                (if (re-search-forward "^\\*" nil t)
-                    (setq end (line-beginning-position))
-                  (setq end (point-max)))
-                (string-trim (buffer-substring-no-properties beg end)))))))))
-
-
 (use-package! buttercup
   :defer t
   :minor ("/test[/-].+\\.el$" . buttercup-minor-mode)
