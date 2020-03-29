@@ -7,7 +7,6 @@
 (if (featurep! +lsp)
     (package! ccls :pin "e5cc4c3e6f")
   (when (package! irony :pin "8387098286")
-    (package! irony-eldoc :pin "0df5831eaa")
     (when (featurep! :checkers syntax)
       (package! flycheck-irony :pin "42dbecd4a8"))
     (when (featurep! :completion company)
