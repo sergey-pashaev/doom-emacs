@@ -8,7 +8,6 @@
     (package! ccls :pin "e5cc4c3e6f")
   (when (package! irony :pin "8387098286")
     (when (featurep! :completion company)
-      (package! company-irony :pin "b44711dfce")
       (package! company-irony-c-headers :pin "72c386aeb0")))
   (when (package! rtags :pin "31f7842015")
     (when (featurep! :completion ivy)

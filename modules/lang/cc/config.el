@@ -134,15 +134,7 @@ This is ignored by ccls.")
 
   ;; Initialize compilation database, if present. Otherwise, fall back on
   ;; `+cc-default-compiler-options'.
-  (add-hook 'irony-mode-hook #'+cc-init-irony-compile-options-h)
-
-  (use-package! company-irony
-    :when (featurep! :completion company)
-    :init
-    (set-company-backend! 'irony-mode
-      '(:separate company-irony-c-headers company-irony))
-    :config
-    (require 'company-irony-c-headers)))
+  (add-hook 'irony-mode-hook #'+cc-init-irony-compile-options-h))
 
 
 ;;
