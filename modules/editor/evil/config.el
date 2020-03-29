@@ -599,7 +599,6 @@ To change these keys see `+evil-repeat-keys'."
       (:when (featurep! :completion company)
         (:prefix "C-x"
           :i "C-l"    #'+company/whole-lines
-          :i "C-k"    #'+company/dict-or-keywords
           :i "C-f"    #'company-files
           :i "C-]"    #'company-etags
           :i "s"      #'company-ispell

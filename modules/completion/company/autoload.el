@@ -137,15 +137,6 @@ C-x C-l."
         "\\(\r\n\\|[\n\r]\\)" t))))))
 
 ;;;###autoload
-(defun +company/dict-or-keywords ()
-  "`company-mode' completion combining `company-dict' and `company-keywords'."
-  (interactive)
-  (require 'company-dict)
-  (require 'company-keywords)
-  (let ((company-backends '((company-keywords company-dict))))
-    (call-interactively #'company-complete)))
-
-;;;###autoload
 (defun +company/dabbrev-code-previous ()
   "TODO"
   (interactive)

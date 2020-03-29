@@ -123,15 +123,3 @@ https://github.com/sebastiencs/company-box/issues/44"
     (cl-letf (((symbol-function #'display-buffer-in-side-window)
                (symbol-function #'ignore)))
       (apply orig-fn args))))
-
-
-(use-package! company-dict
-  :defer t
-  :config
-  (setq company-dict-dir (expand-file-name "dicts" doom-private-dir))
-  (add-hook! 'doom-project-hook
-    (defun +company-enable-project-dicts-h (mode &rest _)
-      "Enable per-project dictionaries."
-      (if (symbol-value mode)
-          (add-to-list 'company-dict-minor-mode-list mode nil #'eq)
-        (setq company-dict-minor-mode-list (delq mode company-dict-minor-mode-list))))))
