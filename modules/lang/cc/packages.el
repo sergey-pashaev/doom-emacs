@@ -8,6 +8,4 @@
     (package! ccls :pin "e5cc4c3e6f")
   (when (package! rtags :pin "31f7842015")
     (when (featurep! :completion ivy)
-      (package! ivy-rtags :pin "31f7842015"))
-    (when (featurep! :completion helm)
-      (package! helm-rtags :pin "31f7842015"))))
+      (package! ivy-rtags :pin "31f7842015"))))
