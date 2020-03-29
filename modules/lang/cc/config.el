@@ -136,10 +136,6 @@ This is ignored by ccls.")
   ;; `+cc-default-compiler-options'.
   (add-hook 'irony-mode-hook #'+cc-init-irony-compile-options-h)
 
-  (use-package! flycheck-irony
-    :when (featurep! :checkers syntax)
-    :config (flycheck-irony-setup))
-
   (use-package! company-irony
     :when (featurep! :completion company)
     :init
