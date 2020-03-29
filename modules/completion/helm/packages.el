@@ -14,5 +14,3 @@
   (package! helm-flx :pin "6640fac5cb"))
 (when (featurep! +childframe)
   (package! posframe :pin "8a9af547e6"))
-(when (featurep! :lang org)
-  (package! helm-org :pin "8457e1e462"))

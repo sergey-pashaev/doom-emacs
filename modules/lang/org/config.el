@@ -561,9 +561,6 @@ between the two."
         (:when (featurep! :completion ivy)
           "." #'counsel-org-goto
           "/" #'counsel-org-goto-all)
-        (:when (featurep! :completion helm)
-          "." #'helm-org-in-buffer-headings
-          "/" #'helm-org-agenda-files-headings)
         "A" #'org-archive-subtree
         "d" #'org-deadline
         "e" #'org-export-dispatch
@@ -621,9 +618,6 @@ between the two."
           (:when (featurep! :completion ivy)
             "g" #'counsel-org-goto
             "G" #'counsel-org-goto-all)
-          (:when (featurep! :completion helm)
-            "g" #'helm-org-in-buffer-headings
-            "G" #'helm-org-agenda-files-headings)
           "c" #'org-clock-goto
           "C" (λ! (org-clock-goto 'select))
           "i" #'org-id-goto

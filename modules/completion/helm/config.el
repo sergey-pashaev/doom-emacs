@@ -159,16 +159,6 @@ be negative.")
   (set-keymap-parent helm-generic-files-map helm-map))
 
 
-(use-package! helm-org
-  :when (featurep! :lang org)
-  :defer t
-  :init
-  (after! helm-mode
-    (pushnew! helm-completing-read-handlers-alist
-              '(org-capture . helm-org-completing-read-tags)
-              '(org-set-tags . helm-org-completing-read-tags))))
-
-
 (use-package! helm-projectile
   :commands (helm-projectile-find-file
              helm-projectile-recentf
