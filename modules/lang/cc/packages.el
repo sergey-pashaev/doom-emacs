@@ -6,6 +6,4 @@
   :pin "bfe85bc009")
 (if (featurep! +lsp)
     (package! ccls :pin "e5cc4c3e6f")
-  (when (package! rtags :pin "31f7842015")
-    (when (featurep! :completion ivy)
-      (package! ivy-rtags :pin "31f7842015"))))
+  (when (package! rtags :pin "31f7842015")))
