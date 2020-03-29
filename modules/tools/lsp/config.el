@@ -25,12 +25,16 @@ irrespective of what `+lsp-company-backend' is set to.")
   (setq lsp-session-file (concat doom-etc-dir "lsp-session"))
   ;; Don't prompt the user for the project root every time we open a new
   ;; lsp-worthy file, instead, try to guess it with projectile.
-  (setq lsp-auto-guess-root t)
+  ;; (setq lsp-auto-guess-root t)
   ;; Auto-kill LSP server once you've killed the last buffer associated with its
   ;; project.
-  (setq lsp-keep-workspace-alive nil)
+  ;; (setq lsp-keep-workspace-alive nil)
   ;; Let `flycheck-check-syntax-automatically' determine this.
   (setq lsp-flycheck-live-reporting nil)
+  (setq lsp-enable-semantic-highlighting nil)
+  (setq lsp-enable-indentation nil)
+  (setq lsp-enable-on-type-formatting nil)
+  (setq lsp-prefer-flymake nil)
   ;; For `lsp-clients'
   (setq lsp-server-install-dir (concat doom-etc-dir "lsp/")
         lsp-groovy-server-install-dir (concat lsp-server-install-dir "lsp-groovy/")
@@ -171,11 +175,21 @@ auto-killed (which is a potentially expensive process)."
         lsp-ui-sideline-ignore-duplicate t
         ;; lsp-ui-doc is redundant with and more invasive than
         ;; `+lookup/documentation'
-        lsp-ui-doc-enable nil
+        ;; lsp-ui-doc-enable nil
         ;; Don't show symbol definitions in the sideline. They are pretty noisy,
         ;; and there is a bug preventing Flycheck errors from being shown (the
         ;; errors flash briefly and then disappear).
-        lsp-ui-sideline-show-hover nil)
+        lsp-ui-sideline-show-hover nil
+        lsp-ui-doc-header t
+        lsp-ui-doc-include-signature nil
+        lsp-ui-doc-position 'at-point
+        lsp-ui-doc-use-childframe nil
+        lsp-ui-flycheck-live-reporting nil
+        lsp-ui-peek-always-show t
+        lsp-ui-peek-list-width 60
+        lsp-ui-sideline-show-hover nil
+        lsp-ui-sideline-show-symbol nil
+        )
 
   (when (featurep! +peek)
     (set-lookup-handlers! 'lsp-ui-mode :async t
