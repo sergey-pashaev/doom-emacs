@@ -86,7 +86,6 @@ be negative.")
           helm-completion-in-region-fuzzy-match fuzzy
           helm-ff-fuzzy-matching fuzzy
           helm-file-cache-fuzzy-match fuzzy
-          helm-flx-for-helm-locate fuzzy
           helm-imenu-fuzzy-match fuzzy
           helm-lisp-fuzzy-completion fuzzy
           helm-locate-fuzzy-match fuzzy
@@ -120,12 +119,6 @@ be negative.")
   ;; Use helpful instead of describe-* to display documentation
   (dolist (fn '(helm-describe-variable helm-describe-function))
     (advice-add fn :around #'doom-use-helpful-a)))
-
-
-(use-package! helm-flx
-  :when (featurep! +fuzzy)
-  :hook (helm-mode . helm-flx-mode)
-  :config (helm-flx-mode +1))
 
 
 (after! helm-rg

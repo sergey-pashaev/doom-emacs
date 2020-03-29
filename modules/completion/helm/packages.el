@@ -10,7 +10,5 @@
   :pin "11fb36af11")
 (package! helm-projectile :pin "5328b74ddd")
 (package! swiper-helm :pin "93fb6db87b")
-(when (featurep! +fuzzy)
-  (package! helm-flx :pin "6640fac5cb"))
 (when (featurep! +childframe)
   (package! posframe :pin "8a9af547e6"))
