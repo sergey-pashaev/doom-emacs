@@ -115,28 +115,6 @@ This is ignored by ccls.")
   (after! ffap
     (add-to-list 'ffap-alist '(c-mode . ffap-c-mode))))
 
-
-(use-package! irony
-  :unless (featurep! +lsp)
-  :commands (irony-install-server irony-mode)
-  :preface
-  (setq irony-server-install-prefix (concat doom-etc-dir "irony-server/"))
-  :init
-  (add-hook! '(c-mode-local-vars-hook
-               c++-mode-local-vars-hook
-               objc-mode-local-vars-hook)
-    (defun +cc-init-irony-mode-h ()
-      (if (file-directory-p irony-server-install-prefix)
-          (irony-mode +1)
-        (message "Irony server isn't installed"))))
-  :config
-  (setq irony-cdb-search-directory-list '("." "build" "build-conda"))
-
-  ;; Initialize compilation database, if present. Otherwise, fall back on
-  ;; `+cc-default-compiler-options'.
-  (add-hook 'irony-mode-hook #'+cc-init-irony-compile-options-h))
-
-
 ;;
 ;; Major modes
 

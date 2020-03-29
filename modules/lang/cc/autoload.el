@@ -102,10 +102,7 @@ simpler."
              (executable-find rtags-rc-binary-name))
     (with-temp-buffer
       (message "Reloaded compile commands for rtags daemon")
-      (rtags-call-rc :silent t "-J" (or (doom-project-root) default-directory))))
-  ;; then irony
-  (when (and (featurep 'irony) irony-mode)
-    (+cc-init-irony-compile-options-h)))
+      (rtags-call-rc :silent t "-J" (or (doom-project-root) default-directory)))))
 
 ;;;###autoload
 (defun +cc/imenu ()
@@ -133,26 +130,6 @@ simpler."
      t)))
 
 (defvar +cc--project-includes-alist nil)
-;;;###autoload
-(defun +cc-init-irony-compile-options-h ()
-  "Initialize compiler options for irony-mode. It searches for the nearest
-compilation database and initailizes it, otherwise falling back on
-`+cc-default-compiler-options' and `+cc-default-include-paths'.
-
-See https://github.com/Sarcasm/irony-mode#compilation-database for details on
-compilation dbs."
-  (when (memq major-mode '(c-mode c++-mode objc-mode))
-    (require 'irony-cdb)
-    (unless (irony-cdb-autosetup-compile-options)
-      (let ((project-root (doom-project-root))
-            (include-paths (+cc-resolve-include-paths)))
-        (setf (alist-get project-root +cc--project-includes-alist)
-              include-paths)
-        (irony-cdb--update-compile-options
-         (append (delq nil (cdr-safe (assq major-mode +cc-default-compiler-options)))
-                 (cl-loop for path in include-paths
-                          collect (format "-I%s" path)))
-         project-root)))))
 
 ;; ;;;###autoload
 ;; (defun +cc|init-ccls-compile-options ()
@@ -175,10 +152,9 @@ compilation dbs."
   "Takes the local project include paths and registers them with ffap.
 This way, `find-file-at-point' (and `+lookup/file') will know where to find most
 header files."
-  (when-let (project-root (or (bound-and-true-p irony--working-directory)
-                              (and (featurep 'lsp)
-                                   (or (lsp-workspace-root)
-                                       (doom-project-root)))))
+  (when-let (project-root (and (featurep 'lsp)
+                               (or (lsp-workspace-root)
+                                   (doom-project-root))))
     (require 'ffap)
     (make-local-variable 'ffap-c-path)
     (make-local-variable 'ffap-c++-path)
