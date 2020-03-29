@@ -4,7 +4,8 @@
   :commands company-complete-common company-manual-begin company-grab-line
   :after-call pre-command-hook after-find-file
   :init
-  (setq company-minimum-prefix-length 2
+  (setq company-minimum-prefix-length 3
+        company-idle-delay nil ; disable idle completion
         company-tooltip-limit 14
         company-dabbrev-downcase nil
         company-dabbrev-ignore-case nil
