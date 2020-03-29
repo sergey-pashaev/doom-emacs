@@ -95,26 +95,14 @@ simpler."
   "Reload the current project's JSON compilation database."
   (interactive)
   (unless (memq major-mode '(c-mode c++-mode objc-mode))
-    (user-error "Not a C/C++/ObjC buffer"))
-  ;; first rtag
-  (when (and (featurep 'rtags)
-             rtags-enabled
-             (executable-find rtags-rc-binary-name))
-    (with-temp-buffer
-      (message "Reloaded compile commands for rtags daemon")
-      (rtags-call-rc :silent t "-J" (or (doom-project-root) default-directory)))))
+    (user-error "Not a C/C++/ObjC buffer")))
 
 ;;;###autoload
 (defun +cc/imenu ()
   "Invoke `rtags-imenu' if a running rdm process is available, otherwise invoke
 `imenu'."
   (interactive)
-  (call-interactively
-   (if (and (processp rtags-rdm-process)
-            (not (eq (process-status rtags-rdm-process) 'exit))
-            (not (eq (process-status rtags-rdm-process) 'signal)))
-       #'rtags-imenu
-     #'imenu)))
+  (call-interactively #'imenu))
 
 
 ;;

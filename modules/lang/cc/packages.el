@@ -4,6 +4,5 @@
 (package! cmake-mode
   :recipe (:host github :repo "emacsmirror/cmake-mode" :files (:defaults "*"))
   :pin "bfe85bc009")
-(if (featurep! +lsp)
-    (package! ccls :pin "e5cc4c3e6f")
-  (when (package! rtags :pin "31f7842015")))
+(when (featurep! +lsp)
+    (package! ccls :pin "e5cc4c3e6f"))

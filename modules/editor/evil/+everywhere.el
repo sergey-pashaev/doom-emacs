@@ -169,7 +169,6 @@ variable for an explanation of the defaults (in comments). See
     restclient
     rjsx-mode
     robe
-    rtags
     ruby-mode
     simple
     slime

@@ -129,57 +129,6 @@ This is ignored by ccls.")
 
 
 ;;
-;; Rtags Support
-
-(use-package! rtags
-  :unless (featurep! +lsp)
-  :commands rtags-executable-find
-  :preface
-  (setq rtags-install-path (concat doom-etc-dir "rtags/"))
-  :init
-  (add-hook! '(c-mode-local-vars-hook
-               c++-mode-local-vars-hook
-               objc-mode-local-vars-hook)
-    (defun +cc-init-rtags-h ()
-      "Start an rtags server in c-mode and c++-mode buffers."
-      (when (and (require 'rtags nil t)
-                 (rtags-executable-find rtags-rdm-binary-name))
-        (rtags-start-process-unless-running))))
-  :config
-  (setq rtags-autostart-diagnostics t
-        rtags-use-bookmarks nil
-        rtags-completions-enabled nil
-        rtags-display-result-backend
-        (cond ((featurep! :completion ivy)  'ivy)
-              ((featurep! :completion helm) 'helm)
-              ('default))
-        ;; These executables are named rtags-* on debian
-        rtags-rc-binary-name
-        (or (cl-find-if #'executable-find (list rtags-rc-binary-name "rtags-rc"))
-            rtags-rc-binary-name)
-        rtags-rdm-binary-name
-        (or (cl-find-if #'executable-find (list rtags-rdm-binary-name "rtags-rdm"))
-            rtags-rdm-binary-name)
-        ;; If not using ivy or helm to view results, use a pop-up window rather
-        ;; than displaying it in the current window...
-        rtags-results-buffer-other-window t
-        ;; ...and don't auto-jump to first match before making a selection.
-        rtags-jump-to-first-match nil)
-
-  (set-lookup-handlers! '(c-mode c++-mode)
-    :definition #'rtags-find-symbol-at-point
-    :references #'rtags-find-references-at-point)
-
-  (add-hook! 'kill-emacs-hook (ignore-errors (rtags-cancel-process)))
-
-  ;; Use rtags-imenu instead of imenu/counsel-imenu
-  (define-key! (c-mode-map c++-mode-map) [remap imenu] #'+cc/imenu)
-
-  (add-hook 'rtags-jump-hook #'better-jumper-set-jump)
-  (add-hook 'rtags-after-find-file-hook #'recenter))
-
-
-;;
 ;; LSP
 
 (when (featurep! +lsp)
