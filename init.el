@@ -51,3 +51,6 @@
     (doom-initialize-packages)
   (doom-initialize-core)
   (doom-initialize-modules))
+
+(put 'projectile-grep 'disabled nil)
+(put 'projectile-ripgrep 'disabled nil)

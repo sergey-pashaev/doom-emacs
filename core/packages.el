@@ -34,6 +34,8 @@
 
 ;; core-projects.el
 (package! projectile :pin "341150c0e7")
+(package! ripgrep :pin "40e871dcc451")
+(package! projectile-ripgrep :pin "40e871dcc45")
 
 ;; core-keybinds.el
 (package! general :pin "f6e928622d")
