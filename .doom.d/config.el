@@ -52,6 +52,14 @@
 ;;
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
+(use-package google-translate
+  :init
+  (progn
+    (require 'google-translate-default-ui)
+    (setq google-translate-output-destination 'echo-area)
+    (setq google-translate-default-source-language "auto")
+    (setq google-translate-default-target-language "ru"))
+    (setq google-translate-backend-method 'curl))
 
 (setq read-quoted-char-radix              10 ; use decimal, not octal
 
