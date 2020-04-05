@@ -163,3 +163,9 @@ there's a region, all lines that region covers will be duplicated."
 (require 'windmove)
 (windmove-default-keybindings 'meta)
 (setq windmove-wrap-around t)
+
+;; Show buffer filepath at frame title
+(setq frame-title-format
+      '((:eval (if (buffer-file-name)
+                   (abbreviate-file-name (buffer-file-name))
+                 "%b"))))
