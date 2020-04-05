@@ -243,7 +243,7 @@ possible."
   :after-call after-find-file dired-initial-position-hook
   :config
   (setq save-place-file (concat doom-cache-dir "saveplace")
-        save-place-limit 500)
+        save-place-limit 1000)
 
   (defadvice! doom--recenter-on-load-saveplace-a (&rest _)
     "Recenter on cursor when loading a saved place."
