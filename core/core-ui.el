@@ -341,10 +341,6 @@ windows, switch to `doom-fallback-buffer'. Otherwise, delegate to original
 (when IS-LINUX
   (setq x-gtk-use-system-tooltips nil))
 
- ;; Favor vertical splits over horizontal ones. Screens are usually wide.
-(setq split-width-threshold 160
-      split-height-threshold nil)
-
 
 ;;
 ;;; Minibuffer
