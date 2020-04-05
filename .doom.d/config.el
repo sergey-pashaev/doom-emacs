@@ -54,33 +54,6 @@
 ;; they are implemented.
 
 (setq read-quoted-char-radix              10 ; use decimal, not octal
-      confirm-kill-emacs                  'y-or-n-p
-      confirm-nonexistent-file-or-buffer  t
-      mouse-yank-at-point                 t
-      visible-bell                        t
-      ring-bell-function                  'ignore
-
-      ;; disable non selected window highlight
-      cursor-in-non-selected-windows      nil
-      highlight-nonselected-windows       nil
-
-      inhibit-startup-message             t
-      inhibit-startup-screen              t
-
-      ;; nice scrolling
-      scroll-margin                       5
-      scroll-conservatively               100000
-      scroll-preserve-screen-position     t
-
-      ;; highlight when searching and replacing
-      search-highlight                    t
-      query-replace-highlight             t
-
-      ;; unified diffs
-      diff-switches                       "-u"
-
-      ;; end files with newline
-      require-final-newline               t
 
       ;; dired
       dired-dwim-target                   t ; guess target directory
@@ -96,13 +69,6 @@
 
       ;; changing the recentering order
       recenter-positions                  '(top middle bottom)
-
-      ;; backups
-      backup-inhibited                    nil
-      backup-by-copying                   t
-      delete-old-versions                 t
-      version-control                     t
-      make-backup-files                   t
 )
 
 ;;; common minor modes
