@@ -177,3 +177,5 @@ there's a region, all lines that region covers will be duplicated."
       '((:eval (if (buffer-file-name)
                    (abbreviate-file-name (buffer-file-name))
                  "%b"))))
+
+(setq ivy-height 10) ; for `swiper-isearch'
