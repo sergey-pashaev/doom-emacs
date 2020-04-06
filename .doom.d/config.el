@@ -190,3 +190,262 @@ there's a region, all lines that region covers will be duplicated."
         ((looking-at "[\]\)\}]") (forward-char) (backward-sexp))
         ((looking-back "[\[\(\{]" 1) (backward-char) (forward-sexp))
         (t nil)))
+
+(bind-key "M-\\" 'psv/goto-match-paren)
+
+(defun psv/ccls-peek-references ()
+  "Peek references."
+  (interactive)
+  (lsp-ui-peek-find-custom "textDocument/references"))
+
+(defun psv/ccls-peek-callee ()
+  "Peek callee's."
+  (interactive)
+  (lsp-ui-peek-find-custom "$ccls/call" '(:callee t)))
+
+(defun psv/ccls-peek-caller ()
+  "Peek callers."
+  (interactive)
+  (lsp-ui-peek-find-custom "$ccls/call"))
+
+(defun psv/ccls-peek-references-address ()
+  "Peek references where we take address."
+  (interactive)
+  (lsp-ui-peek-find-custom "textDocument/references"
+   (plist-put (lsp--text-document-position-params) :role 128)))
+
+(defun psv/ccls-peek-references-read ()
+  "Peek references where we read read variable."
+  (interactive)
+  (lsp-ui-peek-find-custom "textDocument/references"
+    (plist-put (lsp--text-document-position-params) :role 8)))
+
+(defun psv/ccls-peek-references-write ()
+  "Peek references where we write to variable."
+  (interactive)
+  (lsp-ui-peek-find-custom "textDocument/references"
+   (plist-put (lsp--text-document-position-params) :role 16)))
+
+(defun psv/ccls-peek-references-macro ()
+  "Peek references of macro expansion."
+  (interactive)
+  (lsp-ui-peek-find-custom "textDocument/references"
+   (plist-put (lsp--text-document-position-params) :role 64)))
+
+(defun psv/ccls-peek-references-not-call ()
+  "Peek non-call references."
+  (interactive)
+  (lsp-ui-peek-find-custom "textDocument/references"
+   (plist-put (lsp--text-document-position-params) :excludeRole 32)))
+
+(defun psv/ccls-peek-inheritance-base ()
+  "Peek base of class."
+  (interactive)
+  (lsp-ui-peek-find-custom "$ccls/inheritance" `(:levels 1)))
+
+(defun psv/ccls-peek-inheritance-derived ()
+  "Peek derived classes."
+  (interactive)
+  (lsp-ui-peek-find-custom "$ccls/inheritance" `(:levels 1 :derived t)))
+
+(defun psv/ccls-tree-inheritance-base ()
+  "Show base tree of type."
+  (interactive)
+  (ccls-inheritance-hierarchy nil))
+
+(defun psv/ccls-tree-inheritance-derived ()
+  "Show derived tree of type."
+  (interactive)
+  (ccls-inheritance-hierarchy t))
+
+(defun psv/ccls-tree-caller ()
+  "Show tree of callers."
+  (interactive)
+  (ccls-call-hierarchy nil))
+
+(defun psv/ccls-tree-callee ()
+  "Show tree of callee's."
+  (interactive)
+  (ccls-call-hierarchy t))
+
+(defun psv/ccls-peek-member ()
+  "Peek members of type."
+  (interactive)
+  (lsp-ui-peek-find-custom "$ccls/member"))
+
+(defun psv/ccls-peek-variables ()
+  "Peek variables."
+  (interactive)
+  (lsp-ui-peek-find-custom "$ccls/vars"))
+
+(defhydra psv/hydra-ccls (:hint t)
+  "Where?"
+  ("c" psv/ccls-peek-caller "peek caller")
+  ("C" psv/ccls-tree-caller "tree caller")
+  ("r" psv/ccls-peek-references-read "read")
+  ("w" psv/ccls-peek-references-write "write")
+  ("b" psv/ccls-peek-inheritance-base "peek base")
+  ("B" psv/ccls-tree-inheritance-base "tree base")
+  ("d" psv/ccls-peek-inheritance-derived "peek derived")
+  ("D" psv/ccls-tree-inheritance-derived "tree derived")
+  ("m" psv/ccls-peek-member "member")
+  ("n" psv/ccls-peek-references-not-call "not call")
+  ("a" psv/ccls-peek-references "references")
+  ("v" psv/ccls-peek-variables "variables"))
+
+;; Browse with yandex-browser
+(defconst *psv/yandex-browser-program* "yandex-browser")
+(defconst *psv/browser-url-yandex-browser-arguments* nil)
+
+(defun psv/browse-url-yandex-browser (url &optional _new-window)
+  "Ask the Yandex Browser WWW browser to load URL.
+Default to the URL around or before point.  The strings in
+variable `*psv/browser-url-yandex-browser-arguments*' are also
+passed to browser.  The optional argument NEW-WINDOW is not
+used."
+  (interactive (browse-url-interactive-arg "URL: "))
+  (setq url (browse-url-encode-url url))
+  (let* ((process-environment (browse-url-process-environment)))
+    (apply 'start-process
+       (concat *psv/yandex-browser-program* " " url)
+           nil
+       *psv/yandex-browser-program*
+       (append
+        *psv/browser-url-yandex-browser-arguments*
+        (list url)))))
+
+(setq browse-url-browser-function 'psv/browse-url-yandex-browser)
+
+(defun psv/copy-projectile-buffer-relative-path-to-clipboard ()
+  "Put the current file name to clipboard."
+  (interactive)
+  (let ((filename (psv/projectile-buffer-relative-path)))
+    (psv/put-to-clipboard filename)
+    (message "Copied: %s" filename)))
+
+;; ripgrep specific files
+(defconst *psv/ripgrep-mojom-files* '("*.mojom"))
+(defconst *psv/ripgrep-build-files* '("*.gn" "DEPS"))
+(defconst *psv/ripgrep-yaml-files* '("*.yaml"))
+(defconst *psv/ripgrep-java-files* '("*.java"))
+(defconst *psv/ripgrep-cpp-test-files* '("*test.cc" "*tests.cc"))
+(defconst *psv/ripgrep-cpp-browsertest-files* '("*browsertest.cc" "*browsertests.cc"))
+
+(require 'rx)
+
+(defun psv/projectile-ripgrep-current-filename ()
+  "Run a Ripgrep serach with current buffer filename at the current projectile project root."
+  (interactive)
+  (psv/projectile-ripgrep (regexp-quote (ff-basename (psv/buffer-file-path)))
+                          nil
+                          nil
+                          nil))
+
+(defun psv/projectile-ripgrep-cpp (regexp)
+    "Run a Ripgrep search with `REGEXP' rooted at the current projectile project root."
+  (interactive
+   (list
+    (read-from-minibuffer "Ripgrep c++ files for: " (thing-at-point 'symbol))))
+  (psv/projectile-ripgrep regexp
+                          '("-tcpp")
+                          nil
+                          *psv/ripgrep-cpp-test-files*))
+
+(defun psv/projectile-ripgrep-py (regexp)
+    "Run a Ripgrep search with `REGEXP' rooted at the current projectile project root."
+  (interactive
+   (list
+    (read-from-minibuffer "Ripgrep python files for: " (thing-at-point 'symbol))))
+  (psv/projectile-ripgrep regexp
+                          '("-tpy")
+                          nil
+                          nil))
+
+(defun psv/projectile-ripgrep-mojom (regexp)
+    "Run a Ripgrep search with `REGEXP' rooted at the current projectile project root."
+  (interactive
+   (list
+    (read-from-minibuffer "Ripgrep mojom files for: " (thing-at-point 'symbol))))
+  (psv/projectile-ripgrep regexp
+                          nil
+                          *psv/ripgrep-mojom-files*
+                          nil))
+
+(defun psv/projectile-ripgrep-tests (regexp)
+    "Run a Ripgrep search with `REGEXP' rooted at the current projectile project root."
+  (interactive
+   (list
+    (read-from-minibuffer "Ripgrep c++ tests for: " (thing-at-point 'symbol))))
+  (psv/projectile-ripgrep regexp
+                          nil
+                          *psv/ripgrep-cpp-test-files*
+                          nil))
+
+(defun psv/projectile-ripgrep-yaml (regexp)
+    "Run a Ripgrep search with `REGEXP' rooted at the current projectile project root."
+  (interactive
+   (list
+    (read-from-minibuffer "Ripgrep yaml for: " (thing-at-point 'symbol))))
+  (psv/projectile-ripgrep regexp
+                          nil
+                          *psv/ripgrep-yaml-files*
+                          nil))
+
+(defun psv/projectile-ripgrep-browsertests (regexp)
+    "Run a Ripgrep search with `REGEXP' rooted at the current projectile project root."
+  (interactive
+   (list
+    (read-from-minibuffer "Ripgrep c++ browsertests for: " (thing-at-point 'symbol))))
+  (psv/projectile-ripgrep regexp
+                          nil
+                          *psv/ripgrep-cpp-browsertest-files*
+                          nil))
+
+(defun psv/projectile-ripgrep-build (regexp)
+    "Run a Ripgrep search with `REGEXP' rooted at the current projectile project root."
+  (interactive
+   (list
+    (read-from-minibuffer "Ripgrep build files for: " (thing-at-point 'symbol))))
+  (psv/projectile-ripgrep regexp
+                          nil
+                          *psv/ripgrep-build-files*
+                          nil))
+
+(defun psv/projectile-ripgrep-java (regexp)
+    "Run a Ripgrep search with `REGEXP' rooted at the current projectile project root."
+  (interactive
+   (list
+    (read-from-minibuffer "Ripgrep java files for: " (thing-at-point 'symbol))))
+  (psv/projectile-ripgrep regexp
+                          nil
+                          *psv/ripgrep-java-files*
+                          nil))
+
+(defun psv/projectile-ripgrep (regexp args include exclude)
+  "Run a Ripgrep search with `REGEXP' rooted at the current project root.
+
+Pass list of strings `ARGS' to command line arguments, pass
+`INCLUDE' & `EXCLUDE' list of strings as included/excluded glob
+patterns."
+  (psv/ripgrep regexp
+               (projectile-project-root)
+               args
+               include
+               (append exclude
+                       projectile-globally-ignored-files
+                       projectile-globally-ignored-directories)))
+
+(defun psv/ripgrep (regexp dir args include exclude)
+  "Run a Rupgrep search with `REGEXP'.
+
+Rooted at the `DIR' with list of included globs `INCLUDE' and
+  list of excluded globs `EXCLUDE'.' Pass list of strings `ARGS'
+  to command line arguments."
+  (ripgrep-regexp regexp
+                  dir
+                  (append '("-S")
+                          args
+                          (mapcar (lambda (val) (concat "--glob " val))
+                                  include)
+                          (mapcar (lambda (val) (concat "--glob !" val))
+                                  exclude))))
