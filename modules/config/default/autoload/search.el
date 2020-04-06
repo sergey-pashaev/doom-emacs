@@ -34,8 +34,8 @@ If prefix ARG is set, prompt for a known project to search from."
                  (user-error "There are no known projects"))
              default-directory)))
     (call-interactively
-     (cond ((featurep! :completion ivy)  #'+ivy/project-search)
-           ((featurep! :completion helm) #'+helm/project-search)
+     (cond ;((featurep! :completion ivy)  #'+ivy/project-search)
+           ;((featurep! :completion helm) #'+helm/project-search)
            (#'projectile-ripgrep)))))
 
 ;;;###autoload
