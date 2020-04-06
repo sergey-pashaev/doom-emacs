@@ -179,3 +179,14 @@ there's a region, all lines that region covers will be duplicated."
                  "%b"))))
 
 (setq ivy-height 10) ; for `swiper-isearch'
+
+(defun psv/goto-match-paren ()
+  "Go to matching bracket if on (){}[], similar to vi-style of %."
+  (interactive)
+  ;; first, check for "outside of bracket" positions expected by forward-sexp, etc
+  (cond ((looking-at "[\[\(\{]") (forward-sexp))
+        ((looking-back "[\]\)\}]" 1) (backward-sexp))
+        ;; now, try to succeed from inside of a bracket
+        ((looking-at "[\]\)\}]") (forward-char) (backward-sexp))
+        ((looking-back "[\[\(\{]" 1) (backward-char) (forward-sexp))
+        (t nil)))
