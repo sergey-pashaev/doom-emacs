@@ -57,7 +57,7 @@
        ;;tmux              ; an API for interacting with tmux
 
        :lang
-       ;;assembly          ; assembly for fun or debugging
+       assembly          ; assembly for fun or debugging
        (cc +lsp)
        ;;common-lisp       ; if you've seen one lisp, you've seen them all
        ;;data              ; config/data formats
