@@ -449,3 +449,7 @@ Rooted at the `DIR' with list of included globs `INCLUDE' and
                                   include)
                           (mapcar (lambda (val) (concat "--glob !" val))
                                   exclude))))
+
+(use-package! ws-butler
+  :config
+  (setq ws-butler-keep-whitespace-before-point nil))
