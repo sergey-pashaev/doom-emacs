@@ -482,21 +482,6 @@
         "C-`"     #'+popup/toggle
         "C-~"     #'+popup/raise)
 
-      ;;; smartparens
-      (:after smartparens
-        :map smartparens-mode-map
-        "C-M-a"     #'sp-beginning-of-sexp
-        "C-M-e"     #'sp-end-of-sexp
-        "C-M-f"     #'sp-forward-sexp
-        "C-M-b"     #'sp-backward-sexp
-        "C-M-d"     #'sp-splice-sexp
-        "C-M-k"     #'sp-kill-sexp
-        "C-M-t"     #'sp-transpose-sexp
-        "C-<right>" #'sp-forward-slurp-sexp
-        "M-<right>" #'sp-forward-barf-sexp
-        "C-<left>"  #'sp-backward-slurp-sexp
-        "M-<left>"  #'sp-backward-barf-sexp)
-
       ;;; treemacs
       (:when (featurep! :ui treemacs)
         "<f9>"   #'+treemacs/toggle
