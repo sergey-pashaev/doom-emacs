@@ -6,6 +6,7 @@
 
 (map! "C-s"   #'swiper-isearch)
 (map! "C-c <" #'lsp-find-references)
+(map! "C-x f" #'cprg-hydra)
 
 (require 'bind-key)
 

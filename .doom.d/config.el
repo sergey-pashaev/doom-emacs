@@ -55,7 +55,6 @@
 
 (load! "elisp/functions")
 (load! "elisp/keys")
-(load! "elisp/projectile-extra")
 (load! "elisp/ccls-extra")
 (load! "elisp/yandex-browser")
 
@@ -177,3 +176,18 @@ used."
         (list url)))))
 
 (setq browse-url-browser-function 'psv/browse-url-yandex-browser)
+
+(use-package cprg
+  :init
+  (require 'cprg)
+  (cprg-set-globs "_c_++"          '("*.h" "*.c" "*.cc"))
+  (cprg-set-globs "_t_ests"        '("*test.cc" "*tests.cc"))
+  (cprg-set-globs "bro_w_sertests" '("*browsertest.cc" "*browsertests.cc"))
+  (cprg-set-globs "_m_ojom"        '("*.mojom"))
+  (cprg-set-globs "_b_uild"        '("*.gn" "DEPS"))
+  (cprg-set-globs "_y_aml"         '("*.yaml" "*.yml"))
+  (cprg-set-globs "_j_ava"         '("*.java"))
+  (cprg-set-globs "_p_ython"       '("*.py"))
+  (cprg-set-globs "_e_lisp"        '("*.el"))
+  (cprg-set-globs "_x_ml"          '("*.xml"))
+  (cprg-load-hydra))
