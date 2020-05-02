@@ -40,5 +40,17 @@ there's a region, all lines that region covers will be duplicated."
         ((looking-back "[\[\(\{]" 1) (backward-char) (forward-sexp))
         (t nil)))
 
+(defun psv/buffer-file-path ()
+  "Return current buffer filename or default directory."
+  (interactive)
+  (if (equal major-mode 'dired-mode)
+      default-directory
+    (buffer-file-name)))
+
+(defun psv/put-to-clipboard (str)
+  "Put STR into clipboard & kill ring."
+  (when str
+    (kill-new str)))
+
 (provide 'functions)
 ;;; functions.el ends here
