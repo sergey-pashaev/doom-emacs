@@ -1,71 +1,65 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+;;; $DOOMDIR/config.el --- Private configuration -*- lexical-binding: t; -*-
 
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
+;;; Commentary:
 
-
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets.
+;;; Code:
 (setq user-mail-address "pashaev.sergey@gmail.com"
       user-full-name "Sergey Pashaev")
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
-;; are the three important ones:
-;;
-;; + `doom-font'
-;; + `doom-variable-pitch-font'
-;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
-;;
-;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
-;; font string. You generally only need these two:
 (setq doom-font (font-spec :family "Liberation Mono" :size 12))
-
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-solarized-light)
 (setq doom-inhibit-indent-detection t)
 
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
+;; Don't display line numbers.
 (setq display-line-numbers-type nil)
 
+;; Use decimal, not octal.
+(setq read-quoted-char-radix 10)
 
-;; Here are some additional functions/macros that could help you configure Doom:
-;;
-;; - `load!' for loading external *.el files relative to this one
-;; - `use-package' for configuring packages
-;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', relative to
-;;   this file. Emacs searches the `load-path' when you load packages with
-;;   `require' or `use-package'.
-;; - `map!' for binding new keys
-;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c g k').
-;; This will open documentation for it, including demos of how they are used.
-;;
-;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
-;; they are implemented.
+;; Guess target directory.
+(setq dired-dwim-target t)
 
+;; Show all files with human readable sizes.
+(setq dired-listing-switches "-alh") ; --group-directories-first
+
+;; Stop asking whether to save newly added abbrev when quitting emacs.
+(setq save-abbrevs nil)
+
+;; Save whatever’s in the current (system) clipboard before
+;; replacing it with the Emacs’ text.
+;; https://github.com/dakrone/eos/blob/master/eos.org
+(setq save-interprogram-paste-before-kill t)
+
+;; Change the recentering order.
+(setq recenter-positions '(top middle bottom))
+
+;; Show some lines below "last" line before start scrolling.
+(setq scroll-margin 5)
+
+(setq c-default-style "linux")
+
+;; Show buffer filepath at frame title.
+(setq frame-title-format
+      '((:eval (if (buffer-file-name)
+                   (abbreviate-file-name (buffer-file-name))
+                 "%b"))))
+
+
+;;; Load external files.
 (load! "elisp/functions")
 (load! "elisp/keys")
 (load! "elisp/ccls-extra")
 (load! "elisp/yandex-browser")
 
 
-;; ws-butler
+;;; Packages configurations:
 (use-package ws-butler
   :config
   (setq ws-butler-keep-whitespace-before-point nil))
 
 
-;; google-translate
 (use-package google-translate
   :init
   (progn
@@ -76,58 +70,47 @@
     (setq google-translate-backend-method 'curl))
 
 
-;; various settings
-(setq read-quoted-char-radix              10 ; use decimal, not octal
-
-      ;; dired
-      dired-dwim-target                   t ; guess target directory
-      dired-listing-switches              "-alh" ; --group-directories-first
-
-      ;; stop asking whether to save newly added abbrev when quitting emacs
-      save-abbrevs                        nil
-
-      ;; Save whatever’s in the current (system) clipboard before
-      ;; replacing it with the Emacs’ text.
-      ;; https://github.com/dakrone/eos/blob/master/eos.org
-      save-interprogram-paste-before-kill t
-
-      ;; changing the recentering order
-      recenter-positions                  '(top middle bottom)
-
-      scroll-margin                       5
-      c-default-style                     "linux"
-)
-
-;; helm
 (use-package helm
   :config
   (setq helm-split-window-inside-p t)
   (setq helm-buffer-max-length 60))
 
 
-;; ivy
 (use-package ivy
   :config
   (setq ivy-height 10)) ; for `swiper-isearch'
 
 
-;; Show buffer filepath at frame title
-(setq frame-title-format
-      '((:eval (if (buffer-file-name)
-                   (abbreviate-file-name (buffer-file-name))
-                 "%b"))))
+(use-package windmove
+  :init
+  (progn
+    (require 'windmove)
+    (setq windmove-wrap-around t)
+    (windmove-default-keybindings 'meta)))
 
 
-;;; common minor modes
+(use-package cprg
+  :init
+  (require 'cprg)
+  (cprg-set-globs "_c_++"          '("*.h" "*.c" "*.cc"))
+  (cprg-set-globs "_t_ests"        '("*test.cc" "*tests.cc"))
+  (cprg-set-globs "bro_w_sertests" '("*browsertest.cc" "*browsertests.cc"))
+  (cprg-set-globs "_m_ojom"        '("*.mojom"))
+  (cprg-set-globs "_b_uild"        '("*.gn" "DEPS"))
+  (cprg-set-globs "_y_aml"         '("*.yaml" "*.yml"))
+  (cprg-set-globs "_j_ava"         '("*.java"))
+  (cprg-set-globs "_p_ython"       '("*.py"))
+  (cprg-set-globs "_e_lisp"        '("*.el"))
+  (cprg-set-globs "_x_ml"          '("*.xml"))
+  (cprg-load-hydra))
+
+
+;;; Common minor modes:
 (line-number-mode t)
 (column-number-mode t)
 (size-indication-mode t)
-
-;; subtle highlighting of matching parens
-(show-paren-mode t)
-
-;; don't delete the selection with a keypress
-(delete-selection-mode -1)
+(show-paren-mode t) ; subtle highlighting of matching parens
+(delete-selection-mode -1) ; don't delete the selection with a keypress
 
 
 ;; russian input indication
@@ -146,12 +129,6 @@
   (if (string= current-input-method "russian-computer")
       (deactivate-input-method)
       (set-input-method "russian-computer")))
-
-
-;; move around windows with meta
-(require 'windmove)
-(windmove-default-keybindings 'meta)
-(setq windmove-wrap-around t)
 
 
 ;; Browse with yandex-browser
@@ -176,18 +153,3 @@ used."
         (list url)))))
 
 (setq browse-url-browser-function 'psv/browse-url-yandex-browser)
-
-(use-package cprg
-  :init
-  (require 'cprg)
-  (cprg-set-globs "_c_++"          '("*.h" "*.c" "*.cc"))
-  (cprg-set-globs "_t_ests"        '("*test.cc" "*tests.cc"))
-  (cprg-set-globs "bro_w_sertests" '("*browsertest.cc" "*browsertests.cc"))
-  (cprg-set-globs "_m_ojom"        '("*.mojom"))
-  (cprg-set-globs "_b_uild"        '("*.gn" "DEPS"))
-  (cprg-set-globs "_y_aml"         '("*.yaml" "*.yml"))
-  (cprg-set-globs "_j_ava"         '("*.java"))
-  (cprg-set-globs "_p_ython"       '("*.py"))
-  (cprg-set-globs "_e_lisp"        '("*.el"))
-  (cprg-set-globs "_x_ml"          '("*.xml"))
-  (cprg-load-hydra))
