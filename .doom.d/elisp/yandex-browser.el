@@ -482,11 +482,19 @@ List all gn refs that using current file in *yb-gn-refs* buffer."
         (insert (yb-trace-make-link frame))
         (goto-char (point-max))))))
 
+(defun yb-trace-copy-org-reference ()
+  "Copy to clipboard org link to traced point."
+  (interactive)
+  (let ((link (yb-trace-make-link (yb-trace-get-frame))))
+    (yb-put-to-clipboard link)
+    (message "Copied: %s" link)))
+
 (defhydra yb-trace-action-hydra (:hint t)
   "trace actions"
   ("b" yb-trace-start "begin")
   ("a" yb-trace-add "add")
-  ("c" yb-trace-clear "clear"))
+  ("c" yb-trace-clear "clear")
+  ("t" yb-trace-copy-org-reference "copy frame trace ref"))
 
 ;; include statement
 (defun yb-buffer-relative-path-include ()
