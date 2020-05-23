@@ -65,14 +65,14 @@
        ;;go                ; the hipster dialect
        ;;ledger            ; an accounting system in Emacs
        ;;markdown          ; writing docs for people to ignore
-       ;; (org              ; organize your plain life in plain text
-       ;;  ;;+dragndrop       ; drag & drop files/images into org buffers
-       ;;  ;;+hugo            ; use Emacs for hugo blogging
-       ;;  ;;+jupyter        ; ipython/jupyter support for babel
-       ;;  ;;+pandoc          ; export-with-pandoc support
-       ;;  ;;+pomodoro        ; be fruitful with the tomato technique
-       ;;  ;;+present
-       ;;  )        ; using org-mode for presentations
+       (org              ; organize your plain life in plain text
+        ;;+dragndrop       ; drag & drop files/images into org buffers
+        ;;+hugo            ; use Emacs for hugo blogging
+        ;;+jupyter        ; ipython/jupyter support for babel
+        ;;+pandoc          ; export-with-pandoc support
+        ;;+pomodoro        ; be fruitful with the tomato technique
+        ;;+present
+        )        ; using org-mode for presentations
        ;;plantuml          ; diagrams for confusing people more
        ;;python            ; beautiful is better than ugly
        ;;rust              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
