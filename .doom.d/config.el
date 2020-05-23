@@ -93,7 +93,7 @@
   :init
   (require 'cprg)
   (cprg-set-globs "_c_++"          '("*.h" "*.c" "*.cc"))
-  (cprg-set-globs "_t_ests"        '("*test.cc" "*tests.cc"))
+  (cprg-set-globs "_t_ests"        '("*unittest.cc" "*test.cc" "*tests.cc"))
   (cprg-set-globs "bro_w_sertests" '("*browsertest.cc" "*browsertests.cc"))
   (cprg-set-globs "_m_ojom"        '("*.mojom"))
   (cprg-set-globs "_b_uild"        '("*.gn" "DEPS"))
