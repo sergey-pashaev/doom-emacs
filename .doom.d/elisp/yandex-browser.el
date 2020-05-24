@@ -592,6 +592,14 @@ With passed universal argument it visits file in other window."
          (m (string-match "[A-Z]\\{2,\\}-[0-9]+" branch)))
     (match-string 0 branch)))
 
+(defun yb-goto-arch-notes ()
+  "Go to arch notes."
+  (interactive)
+  (let ((path (expand-file-name "~/Yandex.Disk/notes/arch/")))
+    (when (not (file-directory-p path))
+      (dired-create-directory path))
+    (dired path)))
+
 (defun yb-goto-ticket-notes ()
   "Go to ticket notes notes."
   (interactive)
@@ -670,7 +678,8 @@ With passed universal argument it visits file in other window."
   ("o" yb-visit-file-other-project "other project")
   ("n" yb-goto-ticket-notes "ticket notes")
   ("s" yb-goto-ticket-tracker "ticket tracker")
-  ("w" yb-goto-ticket-wiki "ticket wiki"))
+  ("w" yb-goto-ticket-wiki "ticket wiki")
+  ("a" yb-goto-arch-notes "arch notes"))
 
 (bind-key "C-c y" 'yb-tools/body)
 
