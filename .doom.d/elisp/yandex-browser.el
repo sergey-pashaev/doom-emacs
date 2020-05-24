@@ -614,6 +614,30 @@ With passed universal argument it visits file in other window."
     (find-file notes)
     (goto-char (point-max))))
 
+(defun yb-goto-ticket-tracker ()
+  "Go to ticket in tracker."
+  (interactive)
+  (let* ((name (buffer-name))
+         (match (string-match "[A-Z]\\{2,\\}-[0-9]+" name)))
+    (when match
+      (let* ((ticket (match-string 0 name))
+             (url (format yb-tracker-format ticket)))
+        (browse-url url)))))
+
+(defconst yb-wiki-format "https://wiki.yandex-team.ru/users/bioh/browser/notes/%s/"
+  "Wiki URL format.
+1. %s = ticket id")
+
+(defun yb-goto-ticket-wiki ()
+  "Go to ticket in wiki."
+  (interactive)
+  (let* ((name (buffer-name))
+         (match (string-match "[A-Z]\\{2,\\}-[0-9]+" name)))
+    (when match
+      (let* ((ticket (match-string 0 name))
+             (url (format yb-wiki-format ticket)))
+        (browse-url url)))))
+
 ;; compile single file
 (defun yb-select-build-profile ()
   "Select build profile of current project."
@@ -644,7 +668,9 @@ With passed universal argument it visits file in other window."
   ("c" yb-compile-single-file "compile file")
   ("t" yb-trace-action-hydra/body "trace" :exit t)
   ("o" yb-visit-file-other-project "other project")
-  ("n" yb-goto-ticket-notes "ticket notes"))
+  ("n" yb-goto-ticket-notes "ticket notes")
+  ("s" yb-goto-ticket-tracker "ticket tracker")
+  ("w" yb-goto-ticket-wiki "ticket wiki"))
 
 (bind-key "C-c y" 'yb-tools/body)
 
