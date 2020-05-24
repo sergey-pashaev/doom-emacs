@@ -3,6 +3,19 @@
 ;;; Commentary:
 
 ;;; Code:
+(defun psv/get-org-files (dirs)
+  "Return list of org files in DIRS for agenda."
+  (apply 'append
+         (mapcar (lambda (dir)
+                   (directory-files-recursively dir org-agenda-file-regexp))
+                 dirs)))
+
+(defvar psv/org-agenda-dirs '("~/Yandex.Disk/notes/" "~/org/")
+  "List of directories to search org files.")
+
+(defun psv/update-org-agenda-files ()
+  "Update `org-agenda-files' with list of org files from DIRS."
+  (setq org-agenda-files (psv/get-org-files psv/org-agenda-dirs)))
 
 (defun psv/duplicate-current-line-or-region (arg)
   "Duplicates the current line or region ARG times.

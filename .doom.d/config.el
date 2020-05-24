@@ -53,6 +53,7 @@
 (load! "elisp/ccls-extra")
 (load! "elisp/yandex-browser")
 
+(psv/update-org-agenda-files)
 
 ;;; Packages configurations:
 (use-package ws-butler

@@ -595,7 +595,7 @@ With passed universal argument it visits file in other window."
 (defun yb-goto-ticket-notes ()
   "Go to ticket notes notes."
   (interactive)
-  (let* ((dir (expand-file-name "~/workspace/ya/notes/"))
+  (let* ((dir (expand-file-name "~/Yandex.Disk/notes/"))
          (contents (directory-files dir))
          (ticket (ido-completing-read "Ticket? "
                                       (cl-remove-if-not (lambda (name) (file-directory-p (concat dir name))) ; include directories only
@@ -604,11 +604,13 @@ With passed universal argument it visits file in other window."
                                       nil
                                       (yb-guess-ticket)))
          (path (concat dir ticket))
-         (notes (concat path "/notes.org")))
+         (notes (concat path (format "/%s.org" ticket))))
     (when (not (file-directory-p path))
-      (dired-create-directory path))
+      (dired-create-directory path)
     (when (not (file-exists-p notes))
-      (f-write-text "" 'utf-8 notes))
+      (f-write-text "" 'utf-8 notes)
+      (psv/update-org-agenda-files))) ; update agenda files once new org file
+                                      ; added
     (find-file notes)
     (goto-char (point-max))))
 
