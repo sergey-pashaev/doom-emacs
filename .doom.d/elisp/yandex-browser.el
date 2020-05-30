@@ -299,6 +299,8 @@ Returns 'chromium, 'yandex-browser or nil if other."
 ;; gn refs buffer
 (defconst yb-depot-tools-path (expand-file-name "~/workspace/ya/depot_tools/"))
 (defconst yb-gn-path (expand-file-name "gn" yb-depot-tools-path))
+(defconst yb-chromium-depot-tools-path (expand-file-name "~/workspace/ya/chromium_depot_tools/"))
+(defconst yb-chromium-gn-path (expand-file-name "gn" yb-chromium-depot-tools-path))
 (defconst yb-gn-refs-buffer-name "*yb-gn-refs*")
 (defconst yb-yakuza-path (expand-file-name "yakuza" yb-depot-tools-path))
 
@@ -668,6 +670,90 @@ With passed universal argument it visits file in other window."
     (let ((default-directory (concat (projectile-project-root) "src/")))
       (compilation-start cmd))))
 
+(defun yb-compile-single-file-cmd ()
+  "Show current file compilation commands."
+  (interactive)
+  (let* ((build-dir (yb-select-build-profile))
+         (path (substring (yb-buffer-relative-path) (length "src/")))
+         (cmd (format "ninja -C %s -t commands ../../%s^" build-dir path)))
+    (let ((default-directory (concat (projectile-project-root) "src/")))
+      (compilation-start cmd))))
+
+(defvar yb-builds-alist
+  '(("Debug.Desktop.32" . "use_distclang=true is_debug=true is_component_build=true enable_nacl=false target_cpu=\"x86\"")
+    ("Debug.Desktop.64" . "use_distclang=true is_debug=true is_component_build=true enable_nacl=false target_cpu=\"x64\"")
+    ("Release.Desktop.32" . "use_distclang=true is_debug=false is_component_build=true enable_nacl=false target_cpu=\"x86\"")
+    ("Release.Desktop.64" . "use_distclang=true is_debug=false is_component_build=true enable_nacl=false target_cpu=\"x64\"")
+    ("Debug.Android.Emulator" . "use_distclang=true is_debug=true is_component_build=true enable_nacl=false target_os=\"android\" target_cpu=\"x86\"")
+    ("Release.Android.Emulator" . "use_distclang=true is_debug=false is_component_build=true enable_nacl=false target_os=\"android\" target_cpu=\"x86\"")
+    ("Debug.Android.32" . "use_distclang=true is_debug=true is_component_build=true enable_nacl=false target_os=\"android\" target_cpu=\"arm\"")
+    ("Debug.Android.64" . "use_distclang=true is_debug=true is_component_build=true enable_nacl=false target_os=\"android\" target_cpu=\"arm64\"")
+    ("Release.Android.32" . "use_distclang=true is_debug=false is_component_build=true enable_nacl=false target_os=\"android\" target_cpu=\"arm\"")
+    ("Release.Android.64" . "use_distclang=true is_debug=false is_component_build=true enable_nacl=false target_os=\"android\" target_cpu=\"arm64\"")))
+
+(defun yb-prepare-build ()
+  "Prepare browser build directory."
+  (interactive)
+  (let ((root (projectile-project-root)))
+    (if (and root (yb-project-path-p root))
+        (let* ((file (psv/buffer-file-path))
+               (dir (concat root "src/"))
+               (build-profile (yb-select-build "Build:"))
+               (build-args (cdr (assoc build-profile yb-builds-alist)))
+               (default-directory dir) ; used by process as default directory
+               (cmd (format "%s gen out/%s --args='%s' --ide=qtcreator --ninja-extra-args=\"-j 50\""
+                            yb-gn-path
+                            build-profile
+                            build-args)))
+          (when build-profile
+            (compilation-start cmd)))
+      (user-error "Not in yandex-browser project"))))
+
+(defun yb-select-build (prompt)
+  "Complete build name with PROMPT."
+  (let ((builds (mapcar 'car yb-builds-alist)))
+    (projectile-completing-read (concat prompt " ") builds)))
+
+(defvar yb-chromium-builds-alist
+  '(("Debug.Desktop.32" . "is_debug=true is_component_build=true enable_nacl=false target_cpu=\"x86\"")
+    ("Debug.Desktop.64" . "is_debug=true is_component_build=true enable_nacl=false target_cpu=\"x64\"")
+    ("Release.Desktop.32" . "is_debug=false is_component_build=true enable_nacl=false target_cpu=\"x86\"")
+    ("Release.Desktop.64" . "is_debug=false is_component_build=true enable_nacl=false target_cpu=\"x64\"")
+    ("Debug.Android.Emulator" . "is_debug=true is_component_build=true enable_nacl=false target_os=\"android\" target_cpu=\"x86\"")
+    ("Release.Android.Emulator" . "is_debug=false is_component_build=true enable_nacl=false target_os=\"android\" target_cpu=\"x86\"")
+    ("Debug.Android.32" . "is_debug=true is_component_build=true enable_nacl=false target_os=\"android\" target_cpu=\"arm\"")
+    ("Debug.Android.64" . "is_debug=true is_component_build=true enable_nacl=false target_os=\"android\" target_cpu=\"arm64\"")
+    ("Release.Android.32" . "is_debug=false is_component_build=true enable_nacl=false target_os=\"android\" target_cpu=\"arm\"")
+    ("Release.Android.64" . "is_debug=false is_component_build=true enable_nacl=false target_os=\"android\" target_cpu=\"arm64\"")))
+
+(defun yb-prepare-chromium-build ()
+  "Prepare browser build directory."
+  (interactive)
+  (let ((root (projectile-project-root)))
+    (if (and root (chromium-project-path-p root))
+        (let* ((dir root)
+               (build-profile (yb-select-build "Build:"))
+               (build-args (cdr (assoc build-profile yb-chromium-builds-alist)))
+               (default-directory dir) ; used by process as default directory
+               (cmd (format "%s gen out/%s --args='%s' --ide=qtcreator --ninja-extra-args=\"-j 50\""
+                            yb-chromium-gn-path
+                            build-profile
+                            build-args)))
+          (when build-profile
+            (compilation-start cmd)))
+      (user-error "Not in chromium project"))))
+
+(defun yb-select-chromium-build (prompt)
+  "Complete build name with PROMPT."
+  (let ((builds (mapcar 'car yb-chromium-builds-alist)))
+    (projectile-completing-read (concat prompt " ") builds)))
+
+(defun yb-todo ()
+  "Go to end of browser todo list."
+  (interactive)
+  (find-file (expand-file-name "~/Yandex.Disk/todo.org"))
+  (goto-char (point-max)))
+
 ;; hydra
 (defhydra yb-tools (:hint t)
   "yandex-browser tools"
@@ -679,7 +765,9 @@ With passed universal argument it visits file in other window."
   ("n" yb-goto-ticket-notes "ticket notes")
   ("s" yb-goto-ticket-tracker "ticket tracker")
   ("w" yb-goto-ticket-wiki "ticket wiki")
-  ("a" yb-goto-arch-notes "arch notes"))
+  ("a" yb-goto-arch-notes "arch notes")
+  ("p" yb-prepare-build "prepare build")
+  ("d" yb-todo "todo"))
 
 (bind-key "C-c y" 'yb-tools/body)
 
