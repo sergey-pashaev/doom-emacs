@@ -103,6 +103,7 @@
   (cprg-set-globs "_p_ython"       '("*.py"))
   (cprg-set-globs "_e_lisp"        '("*.el"))
   (cprg-set-globs "_x_ml"          '("*.xml"))
+  (cprg-set-globs "rea_d_me"          '("*.md"))
   (cprg-load-hydra))
 
 
