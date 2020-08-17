@@ -602,6 +602,20 @@ With passed universal argument it visits file in other window."
       (dired-create-directory path))
     (dired path)))
 
+(defun yb-goto-global-notes ()
+  "Go to global notes."
+  (interactive)
+  (let* ((dir (expand-file-name "~/Yandex.Disk/notes/"))
+         (notes (concat dir "todo.org")))
+    (when (not (file-directory-p dir))
+      (dired-create-directory dir)
+    (when (not (file-exists-p notes))
+      (f-write-text "" 'utf-8 notes)
+      (psv/update-org-agenda-files))) ; update agenda files once new org file
+                                      ; added
+    (find-file notes)
+    (goto-char (point-max))))
+
 (defun yb-goto-ticket-notes ()
   "Go to ticket notes notes."
   (interactive)
